@@ -1,4 +1,56 @@
 
+## Sent the alert 96% disk used.
+
+```
+import time
+import psutil
+from email.mime.text import MIMEText
+import smtplib
+
+def check_disk_usage():
+    disk = psutil.disk_usage('/')
+    if disk.percent >= 30:
+        send_disk_alert_email()
+
+def send_disk_alert_email():
+    # Your email alert configuration here
+    sender_email = 'royraj4998@gmail.com'
+    sender_password = 'qnmw ugdn wzjv oyse'
+    receiver_email = 'royraj4998@gmail.com' 
+    smtp_server = 'smtp.gmail.com'
+    smtp_port = 587
+
+    # Compose email message
+    subject = 'Disk Usage Alert!'
+    body = 'Disk usage is 96% or higher. Please take action!'
+
+    msg = MIMEText(body)
+    msg['Subject'] = subject
+    msg['From'] = sender_email
+    msg['To'] = receiver_email
+
+    # Connect to SMTP server and send email
+    with smtplib.SMTP(smtp_server, smtp_port) as server:
+        server.starttls()
+        server.login(sender_email, sender_password)
+        server.sendmail(sender_email, receiver_email, msg.as_string())
+
+if __name__ == "__main__":
+    try:
+        while True:
+            check_disk_usage()
+            # Adjust the sleep time to check more frequently (e.g., every 1 minute)
+            time.sleep(60)
+    except KeyboardInterrupt:
+        print("\nScript interrupted. Exiting gracefully.")
+
+
+```
+
+
+
+
+
 
 ```
 # Update and install python3:
